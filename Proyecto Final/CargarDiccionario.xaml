@@ -1,0 +1,103 @@
+﻿<Window x:Class="Proyecto_Final.CargarDiccionario"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Proyecto_Final"
+        mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Cargar Diccionario"
+        Height="400"
+        Width="600"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="Button"
+               x:Key="yesNoButtons">
+            <Setter Property="Width"
+                    Value="100" />
+            <Setter Property="Height"
+                    Value="30" />
+            <Setter Property="Margin"
+                    Value="10" />
+            <Setter Property="FontSize"
+                    Value="15" />
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="Background"
+                    Value="SteelBlue" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin"
+                    Value="10" />
+            <Setter Property="Height"
+                    Value="30" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin"
+                    Value="10,10,10,0" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="FontSize"
+                    Value="20" />
+            <Setter Property="Foreground"
+                    Value="LimeGreen" />
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel Orientation="Horizontal"
+                    Margin="15"
+                    DockPanel.Dock="Bottom"
+                    HorizontalAlignment="Right">
+            <Button Content="Seleccionar"
+                    IsDefault="True"
+                    Click="Button_Click"
+                    Style="{StaticResource yesNoButtons}" />
+            <Button Content="Cancelar"
+                    IsCancel="True"
+                    Style="{StaticResource yesNoButtons}" />
+        </StackPanel>
+        <StackPanel>
+            <TextBlock HorizontalAlignment="Center"
+                       Margin="50"
+                       Text="SELECCIONAR DICCIONARIO"
+                       Foreground="SteelBlue"
+                       FontSize="35"/>
+            <ListBox HorizontalAlignment="Center"
+                     ItemsSource="{Binding Path=Diccionarios}"
+                     SelectedItem="{Binding Path=BBDD}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=Nombre}"/>
+                            <Image Source="Resources/dicctionary.png"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </DockPanel>
+</Window>
