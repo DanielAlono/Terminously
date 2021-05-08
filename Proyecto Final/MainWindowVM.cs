@@ -14,10 +14,10 @@ namespace Proyecto_Final
         public Termino TerminoSeleccionado { get; set; }
         public Ficha NuevaFicha { get; set; }
         public Ficha FichaSeleccionada { get; set; }
-        public static Idioma IdiomaSeleccionado { get; set; }
+        public Idioma IdiomaSeleccionado { get; set; }
         public ObservableCollection<Diccionario> BBDDS { get; set; }
         public ObservableCollection<Termino> Terminos { get; set; }
-        public ObservableCollection<Termino> TerminosPorBBDD { get; set; }
+        public static ObservableCollection<Termino> TerminosPorBBDD { get; set; }
         public ObservableCollection<Ficha> Fichas { get; set; }
         public ObservableCollection<Ficha> FichasPorTermino { get; set; }
         public ObservableCollection<Idioma> Idiomas { get; set; }
@@ -28,15 +28,16 @@ namespace Proyecto_Final
             BBDD = DiccionarioSingleton.GetInstance()._diccionario;
             BBDDS = _servicio.GetBBDDS();
             Idiomas = _servicio.GetIdiomas();
+            AsignarImagenIdiomas(Idiomas);
             Fichas = _servicio.GetFichas();
             Terminos = _servicio.GetTerminos();
-            if(BBDD != null)
+            if (BBDD != null)
                 TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
         }
         public void AñadirBBDD(Diccionario bbdd)
         {
             _servicio.PostBBDD(bbdd);
-            BBDDS = _servicio.GetBBDDS();
+            BBDDS.Add(bbdd);
         }
         public void AñadirTermino()
         {
@@ -49,27 +50,27 @@ namespace Proyecto_Final
         {
             _servicio.PutTermino(TerminoSeleccionado);
             TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
-            FichasPorTermino = GetFichasPorTermino(TerminoSeleccionado.IdTermino);
         }
         public void EliminarTermino()
         {
             _servicio.DeleteTermino(TerminoSeleccionado);
-            TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
+            TerminosPorBBDD.Remove(TerminoSeleccionado);
+            Terminos.Remove(TerminoSeleccionado);
         }
         public void AñadirFicha()
         {
             _servicio.PostFicha(NuevaFicha);
-            FichasPorTermino = GetFichasPorTermino(TerminoSeleccionado.IdTermino);
+            Fichas.Add(NuevaFicha);
         }
         public void EliminarFicha()
         {
             _servicio.DeleteFicha(FichaSeleccionada);
-            FichasPorTermino = GetFichasPorTermino(TerminoSeleccionado.IdTermino);
+            Fichas.Remove(FichaSeleccionada);
         }
         public void EditarFicha()
         {
             _servicio.PutFicha(FichaSeleccionada);
-            FichasPorTermino = GetFichasPorTermino(TerminoSeleccionado.IdTermino);
+            Fichas = _servicio.GetFichas();
         }
         public ObservableCollection<Termino> GetTerminosPorBBDD(int idBBDD)
         {
@@ -89,6 +90,45 @@ namespace Proyecto_Final
                     fichas.Add(ficha);
 
             return fichas;
+        }
+        public void AsignarImagenIdiomas(ObservableCollection<Idioma> idiomas)
+        {
+            foreach (Idioma idioma in idiomas)
+            {
+                switch (idioma.IdIdioma)
+                {
+                    case "AR":
+                        idioma.Imagen = Properties.Resources.ar;
+                        break;
+                    case "CN":
+                        idioma.Imagen = Properties.Resources.cn;
+                        break;
+                    case "DE":
+                        idioma.Imagen = Properties.Resources.de;
+                        break;
+                    case "EN":
+                        idioma.Imagen = Properties.Resources.en;
+                        break;
+                    case "ES":
+                        idioma.Imagen = Properties.Resources.es;
+                        break;
+                    case "FR":
+                        idioma.Imagen = Properties.Resources.fr;
+                        break;
+                    case "IT":
+                        idioma.Imagen = Properties.Resources.it;
+                        break;
+                    case "JP":
+                        idioma.Imagen = Properties.Resources.jp;
+                        break;
+                    case "PT":
+                        idioma.Imagen = Properties.Resources.pt;
+                        break;
+                    case "RU":
+                        idioma.Imagen = Properties.Resources.ru;
+                        break;
+                }
+            }
         }
         public event PropertyChangedEventHandler PropertyChanged;
     }

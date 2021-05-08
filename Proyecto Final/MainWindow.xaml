@@ -222,7 +222,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Path=IdTermino}"/>
+                                    <TextBlock Text="{Binding ElementName=idiomaComboBox, Path=SelectedItem, Converter={StaticResource nombreTerminoConverter}}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -231,7 +231,7 @@
             </DockPanel>
         </Border>
         <ListBox x:Name="datosTerminosListBox"
-                 ItemsSource="{Binding Path=Fichas}"
+                 ItemsSource="{Binding ElementName=nombreTerminosListBox, Path=SelectedItem, Converter={StaticResource terminoAFichasConverter}}"
                  SelectedItem="{Binding Path=FichaSeleccionada}"
                  SelectedIndex="0"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -261,14 +261,11 @@
                             <DockPanel DockPanel.Dock="Right">
                                 <StackPanel Orientation="Horizontal"
                                             DockPanel.Dock="Top">
-                                    <TextBlock Text="{Binding Path=Idioma.Nombre}"
+                                    <TextBlock Text="{Binding Path=IdIdioma}"
                                                Style="{StaticResource datosTerminosTextBlock}" />
-                                    <Image Source="{Binding Path=Idioma.Imagen}"
+                                    <Image Source="{Binding Path=IdIdioma}"
                                            Height="20" />
                                 </StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static properties:Settings.Default},Path=BBDD}"
-                                           VerticalAlignment="Bottom"
-                                           Style="{StaticResource datosTerminosTextBlock}" />
                             </DockPanel>
                             <StackPanel>
                                 <TextBlock Text="{Binding Path=Nombre}"
