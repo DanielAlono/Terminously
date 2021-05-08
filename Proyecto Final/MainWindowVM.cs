@@ -17,34 +17,33 @@ namespace Proyecto_Final
         public Idioma IdiomaSeleccionado { get; set; }
         public ObservableCollection<Diccionario> BBDDS { get; set; }
         public ObservableCollection<Termino> Terminos { get; set; }
-        public static ObservableCollection<Termino> TerminosPorBBDD { get; set; }
+        public ObservableCollection<Termino> TerminosPorBBDD { get; set; }
         public ObservableCollection<Ficha> Fichas { get; set; }
-        public ObservableCollection<Ficha> FichasPorTermino { get; set; }
         public ObservableCollection<Idioma> Idiomas { get; set; }
         private ApiRestService _servicio;
         public MainWindowVM()
         {
             _servicio = new ApiRestService();
             BBDD = DiccionarioSingleton.GetInstance()._diccionario;
+            if(IdiomaSeleccionado != null)
+                Properties.Settings.Default.Idioma = IdiomaSeleccionado.IdIdioma;
             BBDDS = _servicio.GetBBDDS();
             Idiomas = _servicio.GetIdiomas();
             AsignarImagenIdiomas(Idiomas);
             Fichas = _servicio.GetFichas();
-            Terminos = _servicio.GetTerminos();
             if (BBDD != null)
                 TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
         }
         public void AñadirBBDD(Diccionario bbdd)
         {
             _servicio.PostBBDD(bbdd);
-            BBDDS.Add(bbdd);
+            BBDDS = _servicio.GetBBDDS();
         }
         public void AñadirTermino()
         {
             Termino termino = new Termino(Terminos.Count + 1, BBDD.IdDiccionario, "");
             _servicio.PostTermino(termino);
-            Terminos.Add(termino);
-            TerminosPorBBDD.Add(termino);
+            TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
         }
         public void EditarTermino()
         {
@@ -54,18 +53,17 @@ namespace Proyecto_Final
         public void EliminarTermino()
         {
             _servicio.DeleteTermino(TerminoSeleccionado);
-            TerminosPorBBDD.Remove(TerminoSeleccionado);
-            Terminos.Remove(TerminoSeleccionado);
+            TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
         }
         public void AñadirFicha()
         {
             _servicio.PostFicha(NuevaFicha);
-            Fichas.Add(NuevaFicha);
+            Fichas = _servicio.GetFichas();
         }
         public void EliminarFicha()
         {
             _servicio.DeleteFicha(FichaSeleccionada);
-            Fichas.Remove(FichaSeleccionada);
+            Fichas = _servicio.GetFichas();
         }
         public void EditarFicha()
         {

@@ -23,6 +23,13 @@ namespace Proyecto_Final
             IdDiccionario = idBBDD;
             Imagen = imagen;
         }
+
+        public Termino(Termino termino)
+        {
+            IdTermino = termino.IdTermino;
+            IdDiccionario = termino.IdDiccionario;
+            Imagen = termino.Imagen;
+        }
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

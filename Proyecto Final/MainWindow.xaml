@@ -134,9 +134,10 @@
                 <ComboBox Width="100"
                           x:Name="idiomaComboBox"
                           Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                          SelectedItem="{Binding Path=IdiomaSeleccionado}"
+                          SelectedValue="{Binding Source={x:Static properties:Settings.Default}, Path=Idioma}"
+                          SelectedValuePath="IdIdioma"
                           ItemsSource="{Binding Path=Idiomas}"
-                          SelectedIndex="0"
+                          SelectedIndex="4"
                           DisplayMemberPath="Nombre"/>
                 <TextBlock Text="Idioma"
                            ToolTip="Idioma para el nombre de los términos"
@@ -222,7 +223,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding ElementName=idiomaComboBox, Path=SelectedItem, Converter={StaticResource nombreTerminoConverter}}"/>
+                                    <TextBlock Text="{Binding Path=IdTermino, Converter={StaticResource nombreTerminoConverter}}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

@@ -5,5 +5,8 @@
     <Setting Name="endpoint" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://pdam01b.iesdoctorbalmis.info/apirest_terminously/</Value>
     </Setting>
+    <Setting Name="Idioma" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ES</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

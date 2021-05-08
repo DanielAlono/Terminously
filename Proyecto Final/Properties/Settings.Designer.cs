@@ -31,5 +31,17 @@ namespace Proyecto_Final.Properties {
                 return ((string)(this["endpoint"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ES")]
+        public string Idioma {
+            get {
+                return ((string)(this["Idioma"]));
+            }
+            set {
+                this["Idioma"] = value;
+            }
+        }
     }
 }

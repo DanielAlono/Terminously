@@ -31,7 +31,7 @@ namespace Proyecto_Final
         public string IdIdioma { get; set; }
 
         public Ficha(){}
-
+        [JsonConstructor]
         public Ficha(int idFicha, int idTermino, string nombre, CategoriaGramatical categoriaGramatical, string definicion, string fuenteDefinicion, Registro registro, string comentario, string idIdioma)
         {
             IdFicha = idFicha;
@@ -43,6 +43,18 @@ namespace Proyecto_Final
             Registro = registro;
             Comentario = comentario;
             IdIdioma = idIdioma;
+        }
+        public Ficha(Ficha ficha)
+        {
+            IdFicha = ficha.IdFicha;
+            IdTermino = ficha.IdTermino;
+            Nombre = ficha.Nombre;
+            CategoriaGramatical = ficha.CategoriaGramatical;
+            Definicion = ficha.Definicion;
+            FuenteDefinicion = ficha.FuenteDefinicion;
+            Registro = ficha.Registro;
+            Comentario = ficha.Comentario;
+            IdIdioma = ficha.IdIdioma;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
