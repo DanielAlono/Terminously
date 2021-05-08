@@ -13,13 +13,7 @@ namespace Proyecto_Final
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null)
-            {
-                foreach (Ficha ficha in ((ObservableCollection<Ficha>)value))
-                    if (MainWindowVM.IdiomaSeleccionado != null && ficha.Idioma.IdIdioma == MainWindowVM.IdiomaSeleccionado.IdIdioma)
-                        return ficha.Nombre;
-            }
-            return "Falta ficha en ese idioma";
+            throw new NotImplementedException();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

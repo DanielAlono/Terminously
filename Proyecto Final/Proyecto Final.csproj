@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Resources\dicctionary.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

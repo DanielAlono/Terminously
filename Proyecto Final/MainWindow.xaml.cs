@@ -77,7 +77,7 @@ namespace Proyecto_Final
                 _mainWindowVM.NuevaFicha.Comentario = fichaWindow.Comentario;
                 _mainWindowVM.NuevaFicha.Registro = fichaWindow.Registro;
                 _mainWindowVM.NuevaFicha.CategoriaGramatical = fichaWindow.CategoriaGramatical;
-                _mainWindowVM.NuevaFicha.Idioma = fichaWindow.Idioma;
+                _mainWindowVM.NuevaFicha.IdIdioma = fichaWindow.Idioma.IdIdioma;
                 _mainWindowVM.TerminoSeleccionado.Imagen = fichaWindow.Imagen;
                 _mainWindowVM.AñadirFicha();
             }
@@ -99,7 +99,7 @@ namespace Proyecto_Final
             fichaWindow.Comentario = _mainWindowVM.FichaSeleccionada.Comentario;
             fichaWindow.Registro = _mainWindowVM.FichaSeleccionada.Registro;
             fichaWindow.CategoriaGramatical = _mainWindowVM.FichaSeleccionada.CategoriaGramatical;
-            fichaWindow.Idioma = _mainWindowVM.FichaSeleccionada.Idioma;
+            fichaWindow.Idioma.IdIdioma = _mainWindowVM.FichaSeleccionada.IdIdioma;
             if (fichaWindow.ShowDialog() == true)
             {
                 _mainWindowVM.FichaSeleccionada.IdTermino = _mainWindowVM.TerminoSeleccionado.IdTermino;
@@ -109,7 +109,7 @@ namespace Proyecto_Final
                 _mainWindowVM.FichaSeleccionada.Comentario = fichaWindow.Comentario;
                 _mainWindowVM.FichaSeleccionada.Registro = fichaWindow.Registro;
                 _mainWindowVM.FichaSeleccionada.CategoriaGramatical = fichaWindow.CategoriaGramatical;
-                _mainWindowVM.FichaSeleccionada.Idioma = fichaWindow.Idioma;
+                _mainWindowVM.FichaSeleccionada.IdIdioma = fichaWindow.Idioma.IdIdioma;
                 _mainWindowVM.EditarFicha();
             }
         }
@@ -134,7 +134,7 @@ namespace Proyecto_Final
 
             if (nuevaBBDD.ShowDialog() == true)
             {
-                BBDD bd = new BBDD(_mainWindowVM.BBDDS.Count + 1,nuevaBBDD.NombreBBDD);
+                Diccionario bd = new Diccionario(_mainWindowVM.BBDDS.Count + 1,nuevaBBDD.NombreBBDD);
                 _mainWindowVM.AñadirBBDD(bd);
                 Actualizar();
             }
@@ -147,7 +147,7 @@ namespace Proyecto_Final
 
             if(cargarDiccionario.ShowDialog() == true)
             {
-                _mainWindowVM.BBDD = cargarDiccionario.BBDD;
+                DiccionarioSingleton.GetInstance()._diccionario = cargarDiccionario.BBDD;
                 Actualizar();
             }
         }

@@ -20,13 +20,14 @@ namespace Proyecto_Final
     /// </summary>
     public partial class CargarDiccionario : Window
     {
-        public ObservableCollection<BBDD> Diccionarios { get; set; }
-        public BBDD BBDD;
+        public ObservableCollection<Diccionario> Diccionarios { get; set; }
+        public Diccionario BBDD { get; set; }
         public CargarDiccionario()
         {
             InitializeComponent();
             DataContext = this;
         }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;

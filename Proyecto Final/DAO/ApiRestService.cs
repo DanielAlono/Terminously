@@ -13,12 +13,12 @@ namespace Proyecto_Final
     class ApiRestService
     {
         #region Metodos GET
-        public ObservableCollection<BBDD> GetBBDDS()
+        public ObservableCollection<Diccionario> GetBBDDS()
         {
             var client = new RestClient(Properties.Settings.Default.endpoint);
             var request = new RestRequest("Diccionarios", Method.GET);
             var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<ObservableCollection<BBDD>>(response.Content);
+            return JsonConvert.DeserializeObject<ObservableCollection<Diccionario>>(response.Content);
         }
         public ObservableCollection<Termino> GetTerminos()
         {
@@ -43,13 +43,13 @@ namespace Proyecto_Final
         }
         #endregion
         #region Metodos POST
-        public IRestResponse PostBBDD(BBDD bbdd)
+        public IRestResponse PostBBDD(Diccionario bbdd)
         {
             var client = new RestClient(Properties.Settings.Default.endpoint);
             var request = new RestRequest("Diccionarios", Method.POST);
             string data = JsonConvert.SerializeObject(bbdd);
             request.AddParameter("application/json", data, ParameterType.RequestBody);
-            var response = client.Execute(request);
+            var response = client.Post(request);
             return response;
         }
         public IRestResponse PostTermino(Termino termino)
@@ -81,10 +81,10 @@ namespace Proyecto_Final
         }
         #endregion
         #region Metodos PUT
-        public IRestResponse PutBBDD(BBDD bbdd)
+        public IRestResponse PutBBDD(Diccionario bbdd)
         {
             var client = new RestClient(Properties.Settings.Default.endpoint);
-            var request = new RestRequest($"Diccionarios/{bbdd.IdBBDD}", Method.PUT);
+            var request = new RestRequest($"Diccionarios/{bbdd.IdDiccionario}", Method.PUT);
             string data = JsonConvert.SerializeObject(bbdd);
             request.AddParameter("application/json", data, ParameterType.RequestBody);
             var response = client.Execute(request);
@@ -119,14 +119,14 @@ namespace Proyecto_Final
         }
         #endregion
         #region Metodos DELETE
-        public IRestResponse DeleteBBDD(BBDD bbdd)
+        public IRestResponse DeleteBBDD(Diccionario bbdd)
         {
             foreach(Termino termino in GetTerminos())
-                if (termino.IdBBDD.Equals(bbdd.IdBBDD))
+                if (termino.IdDiccionario.Equals(bbdd.IdDiccionario))
                     DeleteTermino(termino);
             
             var client = new RestClient(Properties.Settings.Default.endpoint);
-            var request = new RestRequest($"Diccionarios/{bbdd.IdBBDD}", Method.DELETE);
+            var request = new RestRequest($"Diccionarios/{bbdd.IdDiccionario}", Method.DELETE);
             var response = client.Execute(request);
             return response;
         }

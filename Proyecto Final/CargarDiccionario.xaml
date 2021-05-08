@@ -13,8 +13,8 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Cargar Diccionario"
-        Height="400"
-        Width="600"
+        Height="300"
+        Width="500"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         ResizeMode="NoResize">
@@ -80,24 +80,15 @@
                        Margin="50"
                        Text="SELECCIONAR DICCIONARIO"
                        Foreground="SteelBlue"
-                       FontSize="35"/>
-            <ListBox HorizontalAlignment="Center"
-                     ItemsSource="{Binding Path=Diccionarios}"
-                     SelectedItem="{Binding Path=BBDD}">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=Nombre}"/>
-                            <Image Source="Resources/dicctionary.png"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                       FontSize="25"/>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <ComboBox ItemsSource="{Binding Path=Diccionarios}"
+                          SelectedItem="{Binding Path=BBDD}"
+                          DisplayMemberPath="Nombre"
+                          Width="200"/>
+                <Image Source="Resources/dicctionary.png"/>
+            </StackPanel>
         </StackPanel>
     </DockPanel>
 </Window>

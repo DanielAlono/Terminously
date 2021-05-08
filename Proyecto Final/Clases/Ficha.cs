@@ -28,11 +28,11 @@ namespace Proyecto_Final
         public string FuenteDefinicion { get; set; }
         public Registro Registro { get; set; }
         public string Comentario { get; set; }
-        public Idioma Idioma { get; set; }
+        public string IdIdioma { get; set; }
 
         public Ficha(){}
 
-        public Ficha(int idFicha, int idTermino, string nombre, CategoriaGramatical categoriaGramatical, string definicion, string fuenteDefinicion, Registro registro, string comentario, Idioma idioma)
+        public Ficha(int idFicha, int idTermino, string nombre, CategoriaGramatical categoriaGramatical, string definicion, string fuenteDefinicion, Registro registro, string comentario, string idIdioma)
         {
             IdFicha = idFicha;
             IdTermino = idTermino;
@@ -42,7 +42,7 @@ namespace Proyecto_Final
             FuenteDefinicion = fuenteDefinicion;
             Registro = registro;
             Comentario = comentario;
-            Idioma = idioma;
+            IdIdioma = idIdioma;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

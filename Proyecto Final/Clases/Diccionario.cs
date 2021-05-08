@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Proyecto_Final
 {
-    public class BBDD : INotifyPropertyChanged
+    public class Diccionario : INotifyPropertyChanged
     {
-        public int IdBBDD { get; set; }
+        public int IdDiccionario { get; set; }
         public string Nombre { get; set; }
         [JsonConstructor]
-        public BBDD (int idBBDD, string nombre)
+        public Diccionario (int idDiccionario, string nombre)
         {
-            IdBBDD = idBBDD;
+            IdDiccionario = idDiccionario;
             Nombre = nombre;
         }
         public event PropertyChangedEventHandler PropertyChanged;

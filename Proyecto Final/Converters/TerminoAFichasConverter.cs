@@ -13,14 +13,7 @@ namespace Proyecto_Final
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            ObservableCollection<Ficha> Fichas = new ObservableCollection<Ficha>();
-            if (value != null)
-            {
-                Fichas = ((Termino)value).Fichas;
-
-                return Fichas;
-            }
-            return Fichas;
+            throw new NotImplementedException();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

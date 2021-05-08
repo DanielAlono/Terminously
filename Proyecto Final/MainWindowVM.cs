@@ -10,12 +10,12 @@ namespace Proyecto_Final
 {
     class MainWindowVM : INotifyPropertyChanged
     {
-        public BBDD BBDD { get; set; }
+        public Diccionario BBDD { get; set; }
         public Termino TerminoSeleccionado { get; set; }
         public Ficha NuevaFicha { get; set; }
         public Ficha FichaSeleccionada { get; set; }
         public static Idioma IdiomaSeleccionado { get; set; }
-        public ObservableCollection<BBDD> BBDDS { get; set; }
+        public ObservableCollection<Diccionario> BBDDS { get; set; }
         public ObservableCollection<Termino> Terminos { get; set; }
         public ObservableCollection<Termino> TerminosPorBBDD { get; set; }
         public ObservableCollection<Ficha> Fichas { get; set; }
@@ -25,33 +25,36 @@ namespace Proyecto_Final
         public MainWindowVM()
         {
             _servicio = new ApiRestService();
+            BBDD = DiccionarioSingleton.GetInstance()._diccionario;
             BBDDS = _servicio.GetBBDDS();
             Idiomas = _servicio.GetIdiomas();
             Fichas = _servicio.GetFichas();
             Terminos = _servicio.GetTerminos();
             if(BBDD != null)
-                TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdBBDD);
+                TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
         }
-        public void AñadirBBDD(BBDD bbdd)
+        public void AñadirBBDD(Diccionario bbdd)
         {
             _servicio.PostBBDD(bbdd);
             BBDDS = _servicio.GetBBDDS();
         }
         public void AñadirTermino()
         {
-            _servicio.PostTermino(new Termino(Terminos.Count + 1, BBDD.IdBBDD, ""));
-            TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdBBDD);
+            Termino termino = new Termino(Terminos.Count + 1, BBDD.IdDiccionario, "");
+            _servicio.PostTermino(termino);
+            Terminos.Add(termino);
+            TerminosPorBBDD.Add(termino);
         }
         public void EditarTermino()
         {
             _servicio.PutTermino(TerminoSeleccionado);
-            TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdBBDD);
+            TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
             FichasPorTermino = GetFichasPorTermino(TerminoSeleccionado.IdTermino);
         }
         public void EliminarTermino()
         {
             _servicio.DeleteTermino(TerminoSeleccionado);
-            TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdBBDD);
+            TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
         }
         public void AñadirFicha()
         {
@@ -73,11 +76,8 @@ namespace Proyecto_Final
             Terminos = _servicio.GetTerminos();
             ObservableCollection<Termino> terminos = new ObservableCollection<Termino>();
             foreach (Termino termino in Terminos)
-                if (termino.IdBBDD == idBBDD)
+                if (termino.IdDiccionario == idBBDD)
                     terminos.Add(termino);
-
-            foreach (Termino t in terminos)
-                t.Fichas = GetFichasPorTermino(t.IdTermino);
 
             return terminos;
         }

@@ -171,6 +171,7 @@
                            Height="25" />
                 </Button>
                 <Button ToolTip="Cargar base de datos"
+                        Command="local:CustomCommands.LoadDataBase"
                         Style="{StaticResource optionsButton}">
                     <Image Source="Resources/loadDatabase.png"
                            Height="25" />
@@ -215,13 +216,13 @@
                         BorderBrush="SteelBlue">
                     <ListBox x:Name="nombreTerminosListBox"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             ItemsSource="{Binding Path=Terminos, UpdateSourceTrigger=Explicit}"
+                             ItemsSource="{Binding Path=TerminosPorBBDD, UpdateSourceTrigger=Explicit}"
                              SelectedItem="{Binding Path=TerminoSeleccionado}"
                              Background="White">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Path=Fichas, Converter={StaticResource nombreTerminoConverter}, UpdateSourceTrigger=Explicit}"/>
+                                    <TextBlock Text="{Binding Path=IdTermino}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -230,7 +231,7 @@
             </DockPanel>
         </Border>
         <ListBox x:Name="datosTerminosListBox"
-                 ItemsSource="{Binding ElementName=nombreTerminosListBox, Path=SelectedItem, Converter={StaticResource terminoAFichasConverter}}"
+                 ItemsSource="{Binding Path=Fichas}"
                  SelectedItem="{Binding Path=FichaSeleccionada}"
                  SelectedIndex="0"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
