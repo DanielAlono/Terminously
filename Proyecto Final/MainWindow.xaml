@@ -38,6 +38,8 @@
                         Executed="CommandBinding_Executed_AddDataBase" />
         <CommandBinding Command="local:CustomCommands.LoadDataBase"
                         Executed="CommandBinding_Executed_LoadDataBase" />
+        <CommandBinding Command="local:CustomCommands.DeleteDataBase"
+                        Executed="CommandBinding_Executed_DeleteDataBase" />
         <CommandBinding Command="local:CustomCommands.Help"
                         Executed="CommandBinding_Executed_Help"/>
         <CommandBinding Command="local:CustomCommands.Exit"
@@ -46,13 +48,24 @@
     <Window.Resources>
         <local:NombreTerminoConverter x:Key="nombreTerminoConverter"></local:NombreTerminoConverter>
         <local:TerminoAFichasConverter x:Key="terminoAFichasConverter"></local:TerminoAFichasConverter>
+        <local:ImagenIdiomaConverter x:Key="imagenIdiomaConverter"></local:ImagenIdiomaConverter>
+        <Style x:Key="_ListBoxItemStyle" TargetType="ListBoxItem">
+            <Style.Triggers>
+                <Trigger Property="Selector.IsSelected" Value="True">
+                    <Setter Property="Background" Value="Teal" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="ToolBar">
             <Setter Property="Margin"
-                    Value="5" />
+                    Value="0,5,0,5" />
+            <Setter Property="Height" Value="65"/>
         </Style>
         <Style TargetType="Label">
             <Setter Property="FontSize"
-                    Value="30" />
+                    Value="40" />
+            <Setter Property="FontFamily" 
+                    Value="Tahoma"/>
             <Setter Property="FontWeight"
                     Value="Bold" />
             <Setter Property="HorizontalAlignment"
@@ -67,21 +80,27 @@
         </Style>
         <Style TargetType="MenuItem">
             <Setter Property="FontSize"
-                    Value="15" />
+                    Value="25" />
+            <Setter Property="FontFamily" 
+                    Value="Tahoma"/>
             <Setter Property="Foreground"
                     Value="White" />
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5,0,5,0"/>
         </Style>
         <Style TargetType="MenuItem"
                x:Key="subMenuMenuItem">
+            <Setter Property="FontFamily" 
+                    Value="Tahoma"/>
             <Setter Property="FontSize"
-                    Value="12" />
+                    Value="20" />
             <Setter Property="Foreground"
                     Value="Black" />
         </Style>
         <Style TargetType="Button"
                x:Key="optionsButton">
             <Setter Property="Margin"
-                    Value="10,3,10,3" />
+                    Value="15,3,15,3" />
         </Style>
         <Style TargetType="Button"
                x:Key="styleButton">
@@ -92,23 +111,283 @@
                x:Key="datosTerminosTextBlock">
             <Setter Property="Margin"
                     Value="5" />
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="#1978a5"/>
+        </Style>
+        <Style TargetType="TextBlock"
+               x:Key="tiposTerminosTextBlock">
+            <Setter Property="Margin"
+                    Value="5" />
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="Width" Value="220"/>
+            <Setter Property="Foreground" Value="Teal"/>
+        </Style>
+        <Style TargetType="ListBox" x:Key="vistaVerticalListBox">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border BorderThickness="1"
+                            BorderBrush="#1978a5"
+                            Margin="10"
+                            Padding="5">
+                            <DockPanel>
+                                <DockPanel DockPanel.Dock="Right">
+                                    <StackPanel Orientation="Horizontal"
+                                            DockPanel.Dock="Top">
+                                        <TextBlock Text="{Binding Path=IdIdioma}"
+                                               FontSize="25"
+                                               FontFamily="Tahoma"
+                                               FontWeight="Bold"
+                                               Margin="10"/>
+                                        <Image Source="{Binding Path=IdIdioma, Converter={StaticResource imagenIdiomaConverter}}"
+                                           Height="64"
+                                           Width="128"
+                                           VerticalAlignment="Top"/>
+                                    </StackPanel>
+                                </DockPanel>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Nombre: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                        <TextBlock Text="{Binding Path=Nombre}"
+                                           Style="{StaticResource datosTerminosTextBlock}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Categoría Gramatical: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                        <TextBlock Text="{Binding Path=CategoriaGramatical}"
+                                           Style="{StaticResource datosTerminosTextBlock}" />
+                                    </StackPanel>
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Definición: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                        <TextBlock Text="{Binding Path=Definicion}"
+                                               Grid.Column="1"
+                                               Style="{StaticResource datosTerminosTextBlock}"
+                                               TextWrapping="Wrap"/>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Fuente de la definición: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                        <TextBlock Text="{Binding Path=FuenteDefinicion}"
+                                               Grid.Column="1"
+                                           Style="{StaticResource datosTerminosTextBlock}" />
+                                    </Grid>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Registro: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                        <TextBlock Text="{Binding Path=Registro}"
+                                           Style="{StaticResource datosTerminosTextBlock}" />
+                                    </StackPanel>
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Comentario: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                        <TextBlock Text="{Binding Path=Comentario}"
+                                               Grid.Column="1"
+                                           Style="{StaticResource datosTerminosTextBlock}"
+                                               TextWrapping="Wrap"/>
+                                    </Grid>
+                                </StackPanel>
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListBox" x:Key="vistaHorizontalListBox">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border BorderThickness="1"
+                            BorderBrush="#1978a5"
+                            Margin="10"
+                            Padding="5">
+                            <DockPanel>
+                                <Image Source="{Binding Path=IdIdioma, Converter={StaticResource imagenIdiomaConverter}}"
+                           DockPanel.Dock="Right"
+                           Height="64"
+                           Width="128"
+                           VerticalAlignment="Top"/>
+                                <TextBlock Text="{Binding Path=Nombre}"
+                               DockPanel.Dock="Left"
+                               Style="{StaticResource datosTerminosTextBlock}" />
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListBox" x:Key="fichasListBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=horizontalOption, Path=IsChecked}" Value="True">
+                    <Setter Property="ItemTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Border BorderThickness="1"
+                            BorderBrush="#1978a5"
+                            Margin="10"
+                            Padding="5">
+                                    <DockPanel>
+                                        <Image Source="{Binding Path=IdIdioma, Converter={StaticResource imagenIdiomaConverter}}"
+                           DockPanel.Dock="Right"
+                           Height="64"
+                           Width="128"
+                           VerticalAlignment="Top"/>
+                                        <TextBlock Text="{Binding Path=Nombre}"
+                               DockPanel.Dock="Left"
+                               Style="{StaticResource datosTerminosTextBlock}" />
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=verticalOption, Path=IsChecked}" Value="True">
+                    <Setter Property="ItemTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Border BorderThickness="1"
+                            BorderBrush="#1978a5"
+                            Margin="10"
+                            Padding="5">
+                                    <DockPanel>
+                                        <DockPanel DockPanel.Dock="Right">
+                                            <StackPanel Orientation="Horizontal"
+                                            DockPanel.Dock="Top">
+                                                <TextBlock Text="{Binding Path=IdIdioma}"
+                                               FontSize="25"
+                                               FontFamily="Tahoma"
+                                               FontWeight="Bold"
+                                               Margin="10"/>
+                                                <Image Source="{Binding Path=IdIdioma, Converter={StaticResource imagenIdiomaConverter}}"
+                                           Height="64"
+                                           Width="128"
+                                           VerticalAlignment="Top"/>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Nombre: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                                <TextBlock Text="{Binding Path=Nombre}"
+                                           Style="{StaticResource datosTerminosTextBlock}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Categoría Gramatical: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                                <TextBlock Text="{Binding Path=CategoriaGramatical}"
+                                           Style="{StaticResource datosTerminosTextBlock}" />
+                                            </StackPanel>
+                                            <Grid HorizontalAlignment="Left">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="Definición: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                                <TextBlock Text="{Binding Path=Definicion}"
+                                               Grid.Column="1"
+                                               Style="{StaticResource datosTerminosTextBlock}"
+                                               TextWrapping="Wrap"/>
+                                            </Grid>
+                                            <Grid HorizontalAlignment="Left">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="Fuente de la definición: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                                <TextBlock Text="{Binding Path=FuenteDefinicion}"
+                                               Grid.Column="1"
+                                           Style="{StaticResource datosTerminosTextBlock}" />
+                                            </Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Registro: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                                <TextBlock Text="{Binding Path=Registro}"
+                                           Style="{StaticResource datosTerminosTextBlock}" />
+                                            </StackPanel>
+                                            <Grid HorizontalAlignment="Left">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="Comentario: "
+                                           Style="{StaticResource tiposTerminosTextBlock}"/>
+                                                <TextBlock Text="{Binding Path=Comentario}"
+                                               Grid.Column="1"
+                                           Style="{StaticResource datosTerminosTextBlock}"
+                                               TextWrapping="Wrap"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top"
-              Background="SteelBlue">
+              Background="#1978a5"
+              Height="40">
             <MenuItem Header="_Archivo">
-                <MenuItem Header="_Nueva base de datos"
+                <MenuItem Header="_Nuevo diccionario"
                           Command="local:CustomCommands.AddDataBase"
                           Style="{StaticResource subMenuMenuItem}">
                     <MenuItem.Icon>
-                        <Image Source="Resources/addDataBase.png" />
+                        <Image Source="Resources/add_dictionary.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Cargar base de datos"
+                <MenuItem Header="_Cargar diccionario"
                           Style="{StaticResource subMenuMenuItem}">
                     <MenuItem.Icon>
-                        <Image Source="Resources/loadDataBase.png" />
+                        <Image Source="Resources/load_dictionary.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="_Imprimir"
@@ -126,74 +405,104 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="_View"></MenuItem>
+            <MenuItem Header="_Vista">
+                <MenuItem Header="Horizontal"
+                          x:Name="horizontalOption"
+                          IsCheckable="True"
+                          local:MenuItemExtensions.GroupName="vistaGroup"
+                          Style="{StaticResource subMenuMenuItem}">
+                </MenuItem>
+                <MenuItem Header="Vertical"
+                          x:Name="verticalOption"
+                          IsCheckable="True"
+                          IsChecked="True"
+                          local:MenuItemExtensions.GroupName="vistaGroup"
+                          Style="{StaticResource subMenuMenuItem}">
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="A_yuda"></MenuItem>
         </Menu>
-        <ToolBarTray DockPanel.Dock="Top">
+        <ToolBarTray DockPanel.Dock="Top"
+                     Height="75">
             <ToolBar>
-                <ComboBox Width="100"
-                          x:Name="idiomaComboBox"
-                          Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                          SelectedValue="{Binding Source={x:Static properties:Settings.Default}, Path=Idioma}"
-                          SelectedValuePath="IdIdioma"
-                          ItemsSource="{Binding Path=Idiomas}"
-                          SelectedIndex="4"
-                          DisplayMemberPath="Nombre"/>
-                <TextBlock Text="Idioma"
-                           ToolTip="Idioma para el nombre de los términos"
+                <Image Source="Resources/terminously_icon.png"/>
+                <TextBlock Text="TERMINOUSLY"
+                           FontSize="25"
+                           FontWeight="Bold"
+                           Foreground="Teal"
+                           FontFamily="Comic Sans MS"
                            VerticalAlignment="Center"
-                           Margin="5" />
+                           Margin="10,0,10,0" />
             </ToolBar>
             <ToolBar Padding="5,0,5,0">
                 <Button ToolTip="Añadir"
                         Command="local:CustomCommands.Add"
                         Style="{StaticResource optionsButton}">
                     <Image Source="Resources/add.png"
-                           Height="25" />
+                           Height="35" />
                 </Button>
                 <Button ToolTip="Editar"
                         Command="local:CustomCommands.Edit"
                         Style="{StaticResource optionsButton}">
                     <Image Source="Resources/edit.png"
-                           Height="25" />
+                           Height="35" />
                 </Button>
                 <Button ToolTip="Eliminar"
                         Command="local:CustomCommands.Delete"
                         Style="{StaticResource optionsButton}">
                     <Image Source="Resources/delete.png"
-                           Height="25" />
+                           Height="35" />
                 </Button>
             </ToolBar>
             <ToolBar Padding="5,0,5,0">
-                <Button ToolTip="Nueva base de datos"
+                <Button ToolTip="Nuevo diccionario"
                         Command="local:CustomCommands.AddDataBase"
                         Style="{StaticResource optionsButton}">
-                    <Image Source="Resources/addDatabase.png"
-                           Height="25" />
+                    <Image Source="Resources/add_dictionary.png"
+                           Height="40" />
                 </Button>
-                <Button ToolTip="Cargar base de datos"
+                <Button ToolTip="Cargar diccionario"
                         Command="local:CustomCommands.LoadDataBase"
                         Style="{StaticResource optionsButton}">
-                    <Image Source="Resources/loadDatabase.png"
-                           Height="25" />
+                    <Image Source="Resources/load_dictionary.png"
+                           Height="40" />
                 </Button>
+                <Button ToolTip="Borrar diccionario"
+                        Command="local:CustomCommands.DeleteDataBase"
+                        Style="{StaticResource optionsButton}">
+                    <Image Source="Resources/delete_dictionary.png"
+                           Height="40" />
+                </Button>
+                <TextBlock Text="DICCIONARIO: "
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="Teal"
+                           FontFamily="Comic Sans MS"
+                           VerticalAlignment="Center"
+                           Margin="10,0,0,0" />
+                <TextBlock Text="{Binding Path=BBDD.Nombre}"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="#1978a5"
+                           FontFamily="Comic Sans MS"
+                           VerticalAlignment="Center" />
             </ToolBar>
         </ToolBarTray>
         <Border DockPanel.Dock="Left"
                 BorderThickness="0,2,2,0"
-                BorderBrush="SteelBlue">
-            <DockPanel  Width="300"
-                        Background="SteelBlue">
+                BorderBrush="#1978a5">
+            <DockPanel  Width="400"
+                        Background="#1978a5">
                 <DockPanel DockPanel.Dock="Top">
                     <Button DockPanel.Dock="Right"
                             Command="local:CustomCommands.AddTerm"
                             Margin="0,0,20,0"
-                            Height="40"
+                            Height="50"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             VerticalContentAlignment="Center" Cursor="Hand">
                         <Image VerticalAlignment="Center"
                                 Source="Resources/addTerm.png"
-                                Height="30"/>
+                                Height="40"/>
                     </Button>
                     <Label>TÉRMINOS</Label>
                 </DockPanel>
@@ -216,14 +525,30 @@
                         BorderThickness="0,2,0,0"
                         BorderBrush="SteelBlue">
                     <ListBox x:Name="nombreTerminosListBox"
+                             ItemContainerStyle="{StaticResource _ListBoxItemStyle}"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             ItemsSource="{Binding Path=TerminosPorBBDD, UpdateSourceTrigger=Explicit}"
+                             ItemsSource="{Binding Path=TerminosPorBBDD}"
                              SelectedItem="{Binding Path=TerminoSeleccionado}"
-                             Background="White">
+                             Background="White"
+                             Padding="10">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Path=IdTermino, Converter={StaticResource nombreTerminoConverter}}"/>
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="5">
+                                    <Button BorderThickness="1"
+                                            BorderBrush="Red"
+                                            Background="White"
+                                            Content="X"
+                                            Foreground="Red"
+                                            Margin="0,0,10,0"
+                                            Command="local:CustomCommands.DeleteTerm">
+                                    </Button>
+                                    <TextBlock Text="{Binding Path=IdTermino, Converter={StaticResource nombreTerminoConverter}}"
+                                               Margin="2,0,2,5"
+                                               VerticalAlignment="Center"
+                                               Foreground="Teal"
+                                               FontSize="20"
+                                               FontWeight="DemiBold"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -232,66 +557,14 @@
             </DockPanel>
         </Border>
         <ListBox x:Name="datosTerminosListBox"
+                 Style="{StaticResource fichasListBox}"
+                 ItemContainerStyle ="{StaticResource _ListBoxItemStyle}"
                  ItemsSource="{Binding ElementName=nombreTerminosListBox, Path=SelectedItem, Converter={StaticResource terminoAFichasConverter}}"
                  SelectedItem="{Binding Path=FichaSeleccionada}"
                  SelectedIndex="0"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 HorizontalContentAlignment="Stretch">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderThickness="1"
-                            BorderBrush="Black"
-                            Margin="10"
-                            Padding="5">
-                        <DockPanel>
-                            <StackPanel DockPanel.Dock="Left"
-                                        Width="150">
-                                <TextBlock Text="Nombre: "
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                                <TextBlock Text="Categoría Gramatical: "
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                                <TextBlock Text="Definición: "
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                                <TextBlock Text="Fuente de la definición: "
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                                <TextBlock Text="Registro: "
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                                <TextBlock Text="Comentario: "
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                            </StackPanel>
-                            <DockPanel DockPanel.Dock="Right">
-                                <StackPanel Orientation="Horizontal"
-                                            DockPanel.Dock="Top">
-                                    <TextBlock Text="{Binding Path=IdIdioma}"
-                                               Style="{StaticResource datosTerminosTextBlock}" />
-                                    <Image Source="{Binding Path=IdIdioma}"
-                                           Height="20" />
-                                </StackPanel>
-                            </DockPanel>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Path=Nombre}"
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                                <TextBlock Text="{Binding Path=CategoriaGramatical}"
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                                <TextBlock Text="{Binding Path=Definicion}"
-                                           Style="{StaticResource datosTerminosTextBlock}"
-                                           TextWrapping="Wrap" />
-                                <TextBlock Text="{Binding Path=FuenteDefinicion}"
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                                <TextBlock Text="{Binding Path=Registro}"
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                                <TextBlock Text="{Binding Path=Comentario}"
-                                           Style="{StaticResource datosTerminosTextBlock}" />
-                            </StackPanel>
-                        </DockPanel>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+                 HorizontalContentAlignment="Stretch"
+                 materialDesign:ColorZoneAssist.Mode="Light">
         </ListBox>
     </DockPanel>
 </Window>

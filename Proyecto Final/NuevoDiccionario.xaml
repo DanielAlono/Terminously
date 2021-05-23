@@ -12,9 +12,8 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Nueva base de datos"
-        Height="200"
-        Width="400"
+        Height="350"
+        Width="700"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         ResizeMode="NoResize">
@@ -34,7 +33,7 @@
             <Setter Property="Foreground"
                     Value="White" />
             <Setter Property="Background"
-                    Value="SteelBlue" />
+                    Value="#1978a5" />
             <Setter Property="Effect">
                 <Setter.Value>
                     <DropShadowEffect />
@@ -55,7 +54,7 @@
             <Setter Property="FontSize"
                     Value="20" />
             <Setter Property="Foreground"
-                    Value="LimeGreen" />
+                    Value="#1978a5" />
             <Setter Property="FontWeight"
                     Value="Bold" />
             <Setter Property="VerticalAlignment"
@@ -63,11 +62,18 @@
         </Style>
     </Window.Resources>
     <DockPanel>
+        <TextBlock Margin="50,20,50,50"
+                   HorizontalAlignment="Center"
+                   DockPanel.Dock="Top"
+                   Text="AÑADIR NUEVO DICCIONARIO"
+                   Foreground="#1978a5"
+                   FontSize="25"
+                   FontWeight="Bold"/>
         <StackPanel Orientation="Horizontal"
                     Margin="15"
                     DockPanel.Dock="Bottom"
                     HorizontalAlignment="Right">
-            <Button Content="Guardar"
+            <Button Content="Crear"
                     IsDefault="True"
                     Click="Button_Click"
                     Style="{StaticResource yesNoButtons}" />
@@ -75,14 +81,17 @@
                     IsCancel="True"
                     Style="{StaticResource yesNoButtons}" />
         </StackPanel>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        Margin="10">
-                <Image Source="Resources/addDatabase.png"
-                       Height="30"/>
-                <TextBlock Text="Nombre de la base de datos: " />
-            </StackPanel>
-            <TextBox Text="{Binding Path=NombreBBDD}"/>
-        </StackPanel>
+        <DockPanel>
+            <Image Source="Resources/add_dictionary.png"
+                   Height="64"
+                   DockPanel.Dock="Left"/>
+            <TextBox Text="{Binding Path=NombreBBDD}"
+                     Margin="10,0,50,0"
+                     Style="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                     Height="50"
+                     Foreground="Teal"
+                     FontSize="25"
+                     VerticalContentAlignment="Bottom" Cursor="IBeam"/>
+        </DockPanel>
     </DockPanel>
 </Window>

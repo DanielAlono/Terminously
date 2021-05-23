@@ -73,6 +73,16 @@ namespace Proyecto_Final.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
+        public static byte[] add_dictionary {
+            get {
+                object obj = ResourceManager.GetObject("add_dictionary", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
         public static byte[] addDatabase {
             get {
                 object obj = ResourceManager.GetObject("addDatabase", resourceCulture);
@@ -103,9 +113,9 @@ namespace Proyecto_Final.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] bold {
+        public static byte[] arg {
             get {
-                object obj = ResourceManager.GetObject("bold", resourceCulture);
+                object obj = ResourceManager.GetObject("arg", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -146,6 +156,16 @@ namespace Proyecto_Final.Properties {
         public static byte[] delete {
             get {
                 object obj = ResourceManager.GetObject("delete", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] delete_dictionary {
+            get {
+                object obj = ResourceManager.GetObject("delete_dictionary", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -233,9 +253,9 @@ namespace Proyecto_Final.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] italic {
+        public static byte[] jp {
             get {
-                object obj = ResourceManager.GetObject("italic", resourceCulture);
+                object obj = ResourceManager.GetObject("jp", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -243,9 +263,9 @@ namespace Proyecto_Final.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        public static byte[] jp {
+        public static byte[] load_dictionary {
             get {
-                object obj = ResourceManager.GetObject("jp", resourceCulture);
+                object obj = ResourceManager.GetObject("load_dictionary", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -306,6 +326,36 @@ namespace Proyecto_Final.Properties {
         public static byte[] search {
             get {
                 object obj = ResourceManager.GetObject("search", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] terminously_app_icon {
+            get {
+                object obj = ResourceManager.GetObject("terminously_app_icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] terminously_app_icon1 {
+            get {
+                object obj = ResourceManager.GetObject("terminously_app_icon1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] terminously_icon {
+            get {
+                object obj = ResourceManager.GetObject("terminously_icon", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -14,7 +14,8 @@ namespace Proyecto_Final
         public int IdTermino { get; set; }
         public int IdDiccionario { get; set; }
         public string Imagen { get; set; }
-        public Termino() {
+        public Termino()
+        {
         }
         [JsonConstructor]
         public Termino(int idTermino, int idBBDD, string imagen)
@@ -23,7 +24,7 @@ namespace Proyecto_Final
             IdDiccionario = idBBDD;
             Imagen = imagen;
         }
-
+        [JsonConstructor]
         public Termino(Termino termino)
         {
             IdTermino = termino.IdTermino;

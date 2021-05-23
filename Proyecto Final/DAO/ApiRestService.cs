@@ -1,12 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
-using RestSharp.Authenticators;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proyecto_Final
 {
@@ -25,14 +19,18 @@ namespace Proyecto_Final
             var client = new RestClient(Properties.Settings.Default.endpoint);
             var request = new RestRequest("Terminos", Method.GET);
             var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<ObservableCollection<Termino>>(response.Content);
+            try { return JsonConvert.DeserializeObject<ObservableCollection<Termino>>(response.Content); }
+            catch (JsonReaderException e) { }
+            return new ObservableCollection<Termino>();
         }
         public ObservableCollection<Ficha> GetFichas()
         {
             var client = new RestClient(Properties.Settings.Default.endpoint);
             var request = new RestRequest("Fichas", Method.GET);
             var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<ObservableCollection<Ficha>>(response.Content);
+            try { return JsonConvert.DeserializeObject<ObservableCollection<Ficha>>(response.Content); }
+            catch (JsonReaderException e) { }
+            return new ObservableCollection<Ficha>();
         }
         public ObservableCollection<Idioma> GetIdiomas()
         {
@@ -121,10 +119,11 @@ namespace Proyecto_Final
         #region Metodos DELETE
         public IRestResponse DeleteBBDD(Diccionario bbdd)
         {
-            foreach(Termino termino in GetTerminos())
-                if (termino.IdDiccionario.Equals(bbdd.IdDiccionario))
-                    DeleteTermino(termino);
-            
+            if (GetTerminos() != null)
+                foreach (Termino termino in GetTerminos())
+                    if (termino.IdDiccionario.Equals(bbdd.IdDiccionario))
+                        DeleteTermino(termino);
+
             var client = new RestClient(Properties.Settings.Default.endpoint);
             var request = new RestRequest($"Diccionarios/{bbdd.IdDiccionario}", Method.DELETE);
             var response = client.Execute(request);
@@ -132,9 +131,10 @@ namespace Proyecto_Final
         }
         public IRestResponse DeleteTermino(Termino termino)
         {
-            foreach (Ficha ficha in GetFichas())
-                if (ficha.IdTermino.Equals(termino.IdTermino))
-                    DeleteFicha(ficha);
+            if (GetFichas() != null)
+                foreach (Ficha ficha in GetFichas())
+                    if (ficha.IdTermino.Equals(termino.IdTermino))
+                        DeleteFicha(ficha);
 
             var client = new RestClient(Properties.Settings.Default.endpoint);
             var request = new RestRequest($"Terminos/{termino.IdTermino}", Method.DELETE);

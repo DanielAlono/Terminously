@@ -21,7 +21,7 @@ namespace Proyecto_Final
                 _sercicio = new ApiRestService();
                 fichas = _sercicio.GetFichas();
 
-                foreach(Ficha ficha in fichas)
+                foreach (Ficha ficha in fichas)
                 {
                     if (((Termino)value).IdTermino == ficha.IdTermino)
                         fichasPorTermino.Add(ficha);

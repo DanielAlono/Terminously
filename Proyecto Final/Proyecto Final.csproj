@@ -6,6 +6,7 @@
     <RootNamespace>Proyecto_Final</RootNamespace>
     <UseWPF>true</UseWPF>
     <Win32Resource></Win32Resource>
+    <ApplicationIcon>Resources\terminously_app_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

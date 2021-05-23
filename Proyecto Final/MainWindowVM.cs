@@ -25,9 +25,8 @@ namespace Proyecto_Final
         {
             _servicio = new ApiRestService();
             BBDD = DiccionarioSingleton.GetInstance()._diccionario;
-            if(IdiomaSeleccionado != null)
-                Properties.Settings.Default.Idioma = IdiomaSeleccionado.IdIdioma;
             BBDDS = _servicio.GetBBDDS();
+            Terminos = _servicio.GetTerminos();
             Idiomas = _servicio.GetIdiomas();
             AsignarImagenIdiomas(Idiomas);
             Fichas = _servicio.GetFichas();
@@ -39,9 +38,15 @@ namespace Proyecto_Final
             _servicio.PostBBDD(bbdd);
             BBDDS = _servicio.GetBBDDS();
         }
+        public void EliminarDiccionarios(ObservableCollection<Diccionario> diccionarios)
+        {
+            foreach (Diccionario diccionario in diccionarios)
+                _servicio.DeleteBBDD(diccionario);
+            BBDDS = _servicio.GetBBDDS();
+        }
         public void AñadirTermino()
         {
-            Termino termino = new Termino(Terminos.Count + 1, BBDD.IdDiccionario, "");
+            Termino termino = new Termino(TerminosPorBBDD.Count + (BBDD.IdDiccionario * 1000), BBDD.IdDiccionario, "");
             _servicio.PostTermino(termino);
             TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
         }
@@ -72,7 +77,6 @@ namespace Proyecto_Final
         }
         public ObservableCollection<Termino> GetTerminosPorBBDD(int idBBDD)
         {
-            Terminos = _servicio.GetTerminos();
             ObservableCollection<Termino> terminos = new ObservableCollection<Termino>();
             foreach (Termino termino in Terminos)
                 if (termino.IdDiccionario == idBBDD)
@@ -97,6 +101,9 @@ namespace Proyecto_Final
                 {
                     case "AR":
                         idioma.Imagen = Properties.Resources.ar;
+                        break;
+                    case "ARG":
+                        idioma.Imagen = Properties.Resources.arg;
                         break;
                     case "CN":
                         idioma.Imagen = Properties.Resources.cn;

@@ -49,6 +49,12 @@ namespace Proyecto_Final
             null
         );
 
+        public static readonly RoutedCommand DeleteDataBase = new RoutedUICommand(
+            "DeleteDataBase", "DeleteDataBase",
+            typeof(CustomCommands),
+            null
+        );
+
         public static readonly RoutedCommand AddTerm = new RoutedUICommand(
             "AddTerm", "AddTerm",
             typeof(CustomCommands),

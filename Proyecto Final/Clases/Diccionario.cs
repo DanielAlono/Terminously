@@ -13,7 +13,7 @@ namespace Proyecto_Final
         public int IdDiccionario { get; set; }
         public string Nombre { get; set; }
         [JsonConstructor]
-        public Diccionario (int idDiccionario, string nombre)
+        public Diccionario(int idDiccionario, string nombre)
         {
             IdDiccionario = idDiccionario;
             Nombre = nombre;

@@ -44,15 +44,17 @@ namespace Proyecto_Final
         private void CommandBinding_Executed_AddTerm(object sender, ExecutedRoutedEventArgs e)
         {
             _mainWindowVM.AñadirTermino();
+            Actualizar();
         }
         private void CommandBinding_CanExecute_AddTerm(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (_mainWindowVM != null) e.CanExecute = true;
+            if (_mainWindowVM != null && _mainWindowVM.BBDD != null) e.CanExecute = true;
             else e.CanExecute = false;
         }
         private void CommandBinding_Executed_DeleteTerm(object sender, ExecutedRoutedEventArgs e)
         {
             _mainWindowVM.EliminarTermino();
+            Actualizar();
         }
         private void CommandBinding_CanExecute_DeleteTerm(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -80,6 +82,7 @@ namespace Proyecto_Final
                 _mainWindowVM.NuevaFicha.IdIdioma = fichaWindow.Idioma.IdIdioma;
                 _mainWindowVM.TerminoSeleccionado.Imagen = fichaWindow.Imagen;
                 _mainWindowVM.AñadirFicha();
+                _mainWindowVM.EditarTermino();
                 Actualizar();
             }
         }
@@ -100,6 +103,7 @@ namespace Proyecto_Final
             fichaWindow.Comentario = _mainWindowVM.FichaSeleccionada.Comentario;
             fichaWindow.Registro = _mainWindowVM.FichaSeleccionada.Registro;
             fichaWindow.CategoriaGramatical = _mainWindowVM.FichaSeleccionada.CategoriaGramatical;
+            fichaWindow.Imagen = _mainWindowVM.TerminoSeleccionado.Imagen;
             foreach (Idioma idioma in _mainWindowVM.Idiomas)
                 if (idioma.IdIdioma == _mainWindowVM.FichaSeleccionada.IdIdioma) fichaWindow.Idioma = idioma;
 
@@ -113,7 +117,9 @@ namespace Proyecto_Final
                 _mainWindowVM.FichaSeleccionada.Registro = fichaWindow.Registro;
                 _mainWindowVM.FichaSeleccionada.CategoriaGramatical = fichaWindow.CategoriaGramatical;
                 _mainWindowVM.FichaSeleccionada.IdIdioma = fichaWindow.Idioma.IdIdioma;
+                _mainWindowVM.TerminoSeleccionado.Imagen = fichaWindow.Imagen;
                 _mainWindowVM.EditarFicha();
+                _mainWindowVM.EditarTermino();
             }
         }
         private void CommandBinding_CanExecute_Edit(object sender, CanExecuteRoutedEventArgs e)
@@ -139,6 +145,7 @@ namespace Proyecto_Final
             {
                 Diccionario bd = new Diccionario(_mainWindowVM.BBDDS.Count + 1, nuevaBBDD.NombreBBDD);
                 _mainWindowVM.AñadirBBDD(bd);
+                DiccionarioSingleton.GetInstance()._diccionario = bd;
                 Actualizar();
             }
         }
@@ -152,6 +159,18 @@ namespace Proyecto_Final
             {
                 DiccionarioSingleton.GetInstance()._diccionario = cargarDiccionario.BBDD;
                 Actualizar();
+            }
+        }
+        private void CommandBinding_Executed_DeleteDataBase(object sender, ExecutedRoutedEventArgs e)
+        {
+            BorrarDiccionario borrarDiccionario = new BorrarDiccionario();
+            borrarDiccionario.Owner = this;
+            borrarDiccionario.Diccionarios = _mainWindowVM.BBDDS;
+
+            if (borrarDiccionario.ShowDialog() == true)
+            {
+                _mainWindowVM.EliminarDiccionarios(borrarDiccionario.DiccionariosBorrados);
+                //Actualizar();
             }
         }
         private void CommandBinding_Executed_Exit(object sender, ExecutedRoutedEventArgs e)

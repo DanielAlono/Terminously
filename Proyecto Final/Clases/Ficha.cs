@@ -30,7 +30,7 @@ namespace Proyecto_Final
         public string Comentario { get; set; }
         public string IdIdioma { get; set; }
 
-        public Ficha(){}
+        public Ficha() { }
         [JsonConstructor]
         public Ficha(int idFicha, int idTermino, string nombre, CategoriaGramatical categoriaGramatical, string definicion, string fuenteDefinicion, Registro registro, string comentario, string idIdioma)
         {

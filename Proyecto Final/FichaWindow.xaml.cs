@@ -34,7 +34,9 @@ namespace Proyecto_Final
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
+            if (Nombre != null && Idioma != null)
+                DialogResult = true;
+            else MessageBox.Show("Obligatorio asignar nombre e idioma", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

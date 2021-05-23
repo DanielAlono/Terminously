@@ -13,7 +13,6 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Ficha"
         Height="700"
         Width="1100"
         WindowStartupLocation="CenterOwner"
@@ -49,7 +48,7 @@
             <Setter Property="Foreground"
                     Value="White" />
             <Setter Property="Background"
-                    Value="SteelBlue" />
+                    Value="#1978a5" />
             <Setter Property="Effect">
                 <Setter.Value>
                     <DropShadowEffect />
@@ -85,9 +84,14 @@
                     Style="{StaticResource yesNoButtons}"/>
         </StackPanel>
         <GroupBox DockPanel.Dock="Left"
-                  Header="Datos de la ficha"
                   Margin="20"
-                  Style="{DynamicResource MaterialDesignGroupBox}">
+                  materialDesign:ColorZoneAssist.Mode="PrimaryMid">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <Label Content="Datos de la ficha" Foreground="White" FontWeight="Bold" FontSize="20" Margin="5,0"
+                               HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -137,6 +141,7 @@
                            Text="Registro:" />
                 <ComboBox Grid.Row="4"
                           Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                          materialDesign:BottomDashedLineAdorner.Brush="Teal"
                           Grid.Column="1"
                           SelectedValue="{Binding Path=Registro}"
                           ItemsSource="{Binding Source={StaticResource ListaRegistros}}"/>
@@ -146,6 +151,7 @@
                 <ComboBox Grid.Row="5"
                           Grid.Column="1"
                           Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                          materialDesign:BottomDashedLineAdorner.Brush="Teal"
                           SelectedValue="{Binding Path=CategoriaGramatical}"
                           ItemsSource="{Binding Source={StaticResource ListaCategorias}}"/>
                 <TextBlock Grid.Row="6"
@@ -154,6 +160,7 @@
                 <ComboBox Grid.Row="6"
                           Grid.Column="1"
                           Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                          materialDesign:BottomDashedLineAdorner.Brush="Teal"
                           SelectedItem="{Binding Path=Idioma}"
                           ItemsSource="{Binding Path=ListaIdiomas}"
                           DisplayMemberPath="Nombre"/>
@@ -175,7 +182,7 @@
                         HorizontalAlignment="Center">
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
-                           Text="Imagen:"/>
+                           Text="Imagen URL:"/>
                 <TextBox x:Name="imagenTextBox"
                          Grid.Row="0"
                          Grid.Column="1"
@@ -186,7 +193,7 @@
                      FontWeight="Bold"
                      Foreground="White"
                      Style="{StaticResource yesNoButtons}"
-                     Background="LimeGreen"/>
+                     Background="Teal"/>
         </StackPanel>
     </DockPanel>
 </Window>
