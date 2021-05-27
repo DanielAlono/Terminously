@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Forms;
+using System.IO;
+using System;
+using System.Diagnostics;
 
 namespace Proyecto_Final
 {
@@ -23,24 +16,49 @@ namespace Proyecto_Final
         {
             InitializeComponent();
             _mainWindowVM = new MainWindowVM();
-            this.DataContext = _mainWindowVM;
+            DataContext = _mainWindowVM;
         }
-
-        private void buscadorTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void buscadorTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ((TextBox)sender).Text = "";
-            ((TextBox)sender).Foreground = Brushes.Black;
-        }
-
-        private void buscadorTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (((TextBox)sender).Text == "")
+            //Comprobamos que nuestro DataContext y que los Terminos recogidos por el diccionario no sean nulos
+            if (_mainWindowVM != null && _mainWindowVM.TerminosPorBBDD != null)
             {
-                ((TextBox)sender).Text = "buscar";
-                ((TextBox)sender).Foreground = Brushes.LightGray;
+                //Nos creamos la sublista a rellenar con los términos encontrados
+                ObservableCollection<Termino> subLista = new ObservableCollection<Termino>();
+                //Si el buscador no esta vaciío
+                if (buscadorTextBox.Text != "")
+                {
+                    //Recogemos la longitud del texto introducido
+                    int longitud = buscadorTextBox.Text.Length;
+                    //Recorremos todos los términos de la lista
+                    foreach (Termino termino in _mainWindowVM.TerminosPorBBDD)
+                    {
+                        string nombreTermino = "";
+                        foreach (Ficha ficha in _mainWindowVM.Fichas)
+                        {
+                            //Si el ID coincide y además el idioma coincide, asignamos el nombre
+                            if (ficha.IdTermino == termino.IdTermino)
+                                //Properties.Settings.Default.Idioma es una propiedad de la aplicación
+                                //Para asignar un Identificador de idioma para poner nombre a los términos
+                                //según el idioma seleccionado por el usuario
+                                if (ficha.IdIdioma == Properties.Settings.Default.Idioma) ;
+                                    nombreTermino = ficha.Nombre;
+                        }
+                        //Comparamos ese nombre y si coincide los añadimos a la lista
+                        if (buscadorTextBox.Text.CompareTo(nombreTermino.Substring(0, longitud)) == 0)
+                            subLista.Add(termino);
+                    }
+                    //Asignamos la lista a nuestra ObservableCollection en el DataContext
+                    _mainWindowVM.TerminosPorBBDD = subLista;
+                }
+                else
+                {
+                    //De lo contrario, tenemos una lista auxiliar para volver a rellenar
+                    //todos los datos anteriores sin que se pierdan por el camino
+                    _mainWindowVM.TerminosPorBBDD = _mainWindowVM.TerminosPorBBDDAux;
+                }
             }
         }
-
         private void CommandBinding_Executed_AddTerm(object sender, ExecutedRoutedEventArgs e)
         {
             _mainWindowVM.AñadirTermino();
@@ -179,12 +197,51 @@ namespace Proyecto_Final
         }
         private void CommandBinding_Executed_Help(object sender, ExecutedRoutedEventArgs e)
         {
-
+            Help.ShowHelp(null, @"C:\Program Files (x86)\Terminously\TerminouslyInstaller\manual.chm");
         }
         private void Actualizar()
         {
             _mainWindowVM = new MainWindowVM();
             DataContext = _mainWindowVM;
+        }
+        private void datosTerminosListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            FichaWindow fichaWindow = new FichaWindow();
+            fichaWindow.Owner = this;
+
+            fichaWindow.ListaIdiomas = _mainWindowVM.Idiomas;
+            fichaWindow.Nombre = _mainWindowVM.FichaSeleccionada.Nombre;
+            fichaWindow.Definicion = _mainWindowVM.FichaSeleccionada.Definicion;
+            fichaWindow.FuenteDefinicion = _mainWindowVM.FichaSeleccionada.FuenteDefinicion;
+            fichaWindow.Comentario = _mainWindowVM.FichaSeleccionada.Comentario;
+            fichaWindow.Registro = _mainWindowVM.FichaSeleccionada.Registro;
+            fichaWindow.CategoriaGramatical = _mainWindowVM.FichaSeleccionada.CategoriaGramatical;
+            fichaWindow.Imagen = _mainWindowVM.TerminoSeleccionado.Imagen;
+            foreach (Idioma idioma in _mainWindowVM.Idiomas)
+                if (idioma.IdIdioma == _mainWindowVM.FichaSeleccionada.IdIdioma) fichaWindow.Idioma = idioma;
+
+            if (fichaWindow.ShowDialog() == true)
+            {
+                _mainWindowVM.FichaSeleccionada.IdTermino = _mainWindowVM.TerminoSeleccionado.IdTermino;
+                _mainWindowVM.FichaSeleccionada.Nombre = fichaWindow.Nombre;
+                _mainWindowVM.FichaSeleccionada.Definicion = fichaWindow.Definicion;
+                _mainWindowVM.FichaSeleccionada.FuenteDefinicion = fichaWindow.FuenteDefinicion;
+                _mainWindowVM.FichaSeleccionada.Comentario = fichaWindow.Comentario;
+                _mainWindowVM.FichaSeleccionada.Registro = fichaWindow.Registro;
+                _mainWindowVM.FichaSeleccionada.CategoriaGramatical = fichaWindow.CategoriaGramatical;
+                _mainWindowVM.FichaSeleccionada.IdIdioma = fichaWindow.Idioma.IdIdioma;
+                _mainWindowVM.TerminoSeleccionado.Imagen = fichaWindow.Imagen;
+                _mainWindowVM.EditarFicha();
+                _mainWindowVM.EditarTermino();
+            }
+        }
+        private void IdiomaComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IdiomaComboBox.SelectedItem != null)
+            {
+                Properties.Settings.Default.Idioma = (IdiomaComboBox.SelectedItem as Idioma).IdIdioma;
+                Actualizar();
+            }
         }
     }
 }

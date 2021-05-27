@@ -18,6 +18,7 @@ namespace Proyecto_Final
         public ObservableCollection<Diccionario> BBDDS { get; set; }
         public ObservableCollection<Termino> Terminos { get; set; }
         public ObservableCollection<Termino> TerminosPorBBDD { get; set; }
+        public ObservableCollection<Termino> TerminosPorBBDDAux { get; set; }
         public ObservableCollection<Ficha> Fichas { get; set; }
         public ObservableCollection<Idioma> Idiomas { get; set; }
         private ApiRestService _servicio;
@@ -31,7 +32,10 @@ namespace Proyecto_Final
             AsignarImagenIdiomas(Idiomas);
             Fichas = _servicio.GetFichas();
             if (BBDD != null)
+            {
                 TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
+                TerminosPorBBDDAux = GetTerminosPorBBDD(BBDD.IdDiccionario);
+            }
         }
         public void AñadirBBDD(Diccionario bbdd)
         {

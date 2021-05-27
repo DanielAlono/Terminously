@@ -12,11 +12,12 @@ namespace Proyecto_Final
             if (value != null)
             {
                 foreach (Ficha ficha in _servicio.GetFichas())
-                    if (ficha.IdTermino == ((int)value) /*&& ficha.IdIdioma == Properties.Settings.Default.Idioma*/)
-                        return ficha.Nombre;
+                    if (ficha.IdTermino == ((int)value))
+                        if (ficha.IdIdioma == Properties.Settings.Default.Idioma)
+                            return ficha.Nombre;
             }
 
-            return "Asignar fichas";
+            return "Asignar ficha en " + Properties.Settings.Default.Idioma;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
