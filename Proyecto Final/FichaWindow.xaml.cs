@@ -38,5 +38,10 @@ namespace Proyecto_Final
                 DialogResult = true;
             else MessageBox.Show("Obligatorio asignar nombre e idioma", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
+        private void subirArchivoButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Todavía no está disponible", "AVISO", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }

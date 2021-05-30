@@ -392,8 +392,16 @@
                         Background="#1978a5">
                 <DockPanel DockPanel.Dock="Top">
                     <Button DockPanel.Dock="Right"
+                            Command="local:CustomCommands.DeleteTerm"
+                            Height="50"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            VerticalContentAlignment="Center" Cursor="Hand">
+                        <Image VerticalAlignment="Center"
+                               Source="Resources/cancel.png"
+                               Height="40"/>
+                    </Button>
+                    <Button DockPanel.Dock="Right"
                             Command="local:CustomCommands.AddTerm"
-                            Margin="0,0,20,0"
                             Height="50"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             VerticalContentAlignment="Center" Cursor="Hand">
@@ -422,7 +430,7 @@
                     <ListBox x:Name="nombreTerminosListBox"
                              ItemContainerStyle="{StaticResource _ListBoxItemStyle}"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             ItemsSource="{Binding Path=TerminosPorBBDD}"
+                             ItemsSource="{Binding Path=TerminosPorBBDD, UpdateSourceTrigger=PropertyChanged}"
                              SelectedItem="{Binding Path=TerminoSeleccionado}"
                              Background="White"
                              Padding="10">
@@ -430,14 +438,6 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal"
                                             Margin="5">
-                                    <Button BorderThickness="1"
-                                            BorderBrush="Red"
-                                            Background="White"
-                                            Content="X"
-                                            Foreground="Red"
-                                            Margin="0,0,10,0"
-                                            Command="local:CustomCommands.DeleteTerm">
-                                    </Button>
                                     <TextBlock Text="{Binding Path=IdTermino, Converter={StaticResource nombreTerminoConverter}}"
                                                Margin="2,0,2,5"
                                                VerticalAlignment="Center"

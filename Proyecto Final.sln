@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proyecto Final", "Proyecto 
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TerminouslyInstaller", "TerminouslyInstaller\TerminouslyInstaller.vdproj", "{59D8DAD1-107E-4154-BB95-E63D27BB78E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProyectoFinal", "UnitTestProyectoFinal\UnitTestProyectoFinal.csproj", "{5F023B91-5755-49A0-9013-F81C472B8F0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{3B52C1E8-34DC-482F-B223-63F4D0DF1123}.Release|Any CPU.Build.0 = Release|Any CPU
 		{59D8DAD1-107E-4154-BB95-E63D27BB78E6}.Debug|Any CPU.ActiveCfg = Debug
 		{59D8DAD1-107E-4154-BB95-E63D27BB78E6}.Release|Any CPU.ActiveCfg = Release
+		{5F023B91-5755-49A0-9013-F81C472B8F0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F023B91-5755-49A0-9013-F81C472B8F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F023B91-5755-49A0-9013-F81C472B8F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F023B91-5755-49A0-9013-F81C472B8F0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

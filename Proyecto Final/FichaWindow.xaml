@@ -189,9 +189,11 @@
                          Text="{Binding Path=Imagen}"/>
             </StackPanel>
             <Button  Content="Seleccionar archivo"
+                     x:Name="subirArchivoButton"
                      Width="180"
                      FontWeight="Bold"
                      Foreground="White"
+                     Click="subirArchivoButton_Click"
                      Style="{StaticResource yesNoButtons}"
                      Background="Teal"/>
         </StackPanel>

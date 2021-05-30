@@ -14,8 +14,8 @@ namespace Proyecto_Final
         private MainWindowVM _mainWindowVM;
         public MainWindow()
         {
-            InitializeComponent();
             _mainWindowVM = new MainWindowVM();
+            InitializeComponent();
             DataContext = _mainWindowVM;
         }
         private void buscadorTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -31,22 +31,24 @@ namespace Proyecto_Final
                     //Recogemos la longitud del texto introducido
                     int longitud = buscadorTextBox.Text.Length;
                     //Recorremos todos los términos de la lista
-                    foreach (Termino termino in _mainWindowVM.TerminosPorBBDD)
+                    foreach (Termino termino in _mainWindowVM.TerminosPorBBDDAux)
                     {
                         string nombreTermino = "";
-                        foreach (Ficha ficha in _mainWindowVM.Fichas)
+                        foreach (Ficha ficha in _mainWindowVM.GetFichasPorTermino(termino.IdTermino))
                         {
                             //Si el ID coincide y además el idioma coincide, asignamos el nombre
                             if (ficha.IdTermino == termino.IdTermino)
                                 //Properties.Settings.Default.Idioma es una propiedad de la aplicación
                                 //Para asignar un Identificador de idioma para poner nombre a los términos
                                 //según el idioma seleccionado por el usuario
-                                if (ficha.IdIdioma == Properties.Settings.Default.Idioma) ;
+                                if (ficha.IdIdioma == Properties.Settings.Default.Idioma)
+                                {
                                     nombreTermino = ficha.Nombre;
+                                    //Comparamos ese nombre y si coincide los añadimos a la lista
+                                    if (buscadorTextBox.Text.CompareTo(nombreTermino.Substring(0, longitud)) == 0)
+                                        subLista.Add(termino);
+                                }
                         }
-                        //Comparamos ese nombre y si coincide los añadimos a la lista
-                        if (buscadorTextBox.Text.CompareTo(nombreTermino.Substring(0, longitud)) == 0)
-                            subLista.Add(termino);
                     }
                     //Asignamos la lista a nuestra ObservableCollection en el DataContext
                     _mainWindowVM.TerminosPorBBDD = subLista;
@@ -89,7 +91,6 @@ namespace Proyecto_Final
             if (fichaWindow.ShowDialog() == true)
             {
                 _mainWindowVM.NuevaFicha = new Ficha();
-                _mainWindowVM.NuevaFicha.IdFicha = _mainWindowVM.Fichas.Count + 1;
                 _mainWindowVM.NuevaFicha.IdTermino = _mainWindowVM.TerminoSeleccionado.IdTermino;
                 _mainWindowVM.NuevaFicha.Nombre = fichaWindow.Nombre;
                 _mainWindowVM.NuevaFicha.Definicion = fichaWindow.Definicion;
@@ -161,7 +162,8 @@ namespace Proyecto_Final
 
             if (nuevaBBDD.ShowDialog() == true)
             {
-                Diccionario bd = new Diccionario(_mainWindowVM.BBDDS.Count + 1, nuevaBBDD.NombreBBDD);
+                Diccionario bd = new Diccionario();
+                bd.Nombre = nuevaBBDD.NombreBBDD;
                 _mainWindowVM.AñadirBBDD(bd);
                 DiccionarioSingleton.GetInstance()._diccionario = bd;
                 Actualizar();

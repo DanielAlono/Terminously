@@ -20,6 +20,7 @@ namespace Proyecto_Final
         public ObservableCollection<Termino> TerminosPorBBDD { get; set; }
         public ObservableCollection<Termino> TerminosPorBBDDAux { get; set; }
         public ObservableCollection<Ficha> Fichas { get; set; }
+        public ObservableCollection<Ficha> FichasPorBBDD { get; set; }
         public ObservableCollection<Idioma> Idiomas { get; set; }
         private ApiRestService _servicio;
         public MainWindowVM()
@@ -31,10 +32,12 @@ namespace Proyecto_Final
             Idiomas = _servicio.GetIdiomas();
             AsignarImagenIdiomas(Idiomas);
             Fichas = _servicio.GetFichas();
+            
             if (BBDD != null)
             {
                 TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
                 TerminosPorBBDDAux = GetTerminosPorBBDD(BBDD.IdDiccionario);
+                FichasPorBBDD = GetFichasPorBBDD(BBDD.IdDiccionario);
             }
         }
         public void AñadirBBDD(Diccionario bbdd)
@@ -50,7 +53,9 @@ namespace Proyecto_Final
         }
         public void AñadirTermino()
         {
-            Termino termino = new Termino(TerminosPorBBDD.Count + (BBDD.IdDiccionario * 1000), BBDD.IdDiccionario, "");
+            Termino termino = new Termino();
+            termino.IdDiccionario = BBDD.IdDiccionario;
+            termino.Imagen = "";
             _servicio.PostTermino(termino);
             TerminosPorBBDD = GetTerminosPorBBDD(BBDD.IdDiccionario);
         }
@@ -95,6 +100,14 @@ namespace Proyecto_Final
                 if (ficha.IdTermino == idTermino)
                     fichas.Add(ficha);
 
+            return fichas;
+        }
+        public ObservableCollection<Ficha> GetFichasPorBBDD(int idBBDD)
+        {
+            ObservableCollection<Ficha> fichas = new ObservableCollection<Ficha>();
+            foreach (Termino termino in TerminosPorBBDD)
+                foreach (Ficha ficha in GetFichasPorTermino(termino.IdTermino))
+                    fichas.Add(ficha);
             return fichas;
         }
         public void AsignarImagenIdiomas(ObservableCollection<Idioma> idiomas)

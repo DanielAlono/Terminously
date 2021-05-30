@@ -18,6 +18,10 @@ namespace Proyecto_Final
             IdDiccionario = idDiccionario;
             Nombre = nombre;
         }
+        [JsonConstructor]
+        public Diccionario()
+        {
+        }
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
